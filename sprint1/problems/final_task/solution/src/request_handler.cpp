@@ -13,6 +13,38 @@ struct ContentType {
 
 constexpr std::string_view kMapsApiTarget = "/api/v1/maps"sv;
 
+json::object RoadToJson(const model::Road& road) {
+    json::object road_obj;
+    road_obj["x0"] = road.GetStart().x;
+    road_obj["y0"] = road.GetStart().y;
+    if (road.IsHorizontal()) {
+        road_obj["x1"] = road.GetEnd().x;
+    } else {
+        road_obj["y1"] = road.GetEnd().y;
+    }
+    return road_obj;
+}
+
+json::object BuildingToJson(const model::Building& building) {
+    const auto& bounds = building.GetBounds();
+    json::object building_obj;
+    building_obj["x"] = bounds.position.x;
+    building_obj["y"] = bounds.position.y;
+    building_obj["w"] = bounds.size.width;
+    building_obj["h"] = bounds.size.height;
+    return building_obj;
+}
+
+json::object OfficeToJson(const model::Office& office) {
+    json::object office_obj;
+    office_obj["id"] = *office.GetId();
+    office_obj["x"] = office.GetPosition().x;
+    office_obj["y"] = office.GetPosition().y;
+    office_obj["offsetX"] = office.GetOffset().dx;
+    office_obj["offsetY"] = office.GetOffset().dy;
+    return office_obj;
+}
+
 }  // namespace
 
 RequestHandler::StringResponse RequestHandler::MakeJsonResponse(http::status status, const json::value& value,
@@ -37,37 +69,17 @@ RequestHandler::StringResponse RequestHandler::MakeErrorResponse(http::status st
 json::value RequestHandler::MapToJson(const model::Map& map) {
     json::array roads;
     for (const auto& road : map.GetRoads()) {
-        json::object road_obj;
-        road_obj["x0"] = road.GetStart().x;
-        road_obj["y0"] = road.GetStart().y;
-        if (road.IsHorizontal()) {
-            road_obj["x1"] = road.GetEnd().x;
-        } else {
-            road_obj["y1"] = road.GetEnd().y;
-        }
-        roads.push_back(std::move(road_obj));
+        roads.push_back(RoadToJson(road));
     }
 
     json::array buildings;
     for (const auto& building : map.GetBuildings()) {
-        const auto& bounds = building.GetBounds();
-        json::object building_obj;
-        building_obj["x"] = bounds.position.x;
-        building_obj["y"] = bounds.position.y;
-        building_obj["w"] = bounds.size.width;
-        building_obj["h"] = bounds.size.height;
-        buildings.push_back(std::move(building_obj));
+        buildings.push_back(BuildingToJson(building));
     }
 
     json::array offices;
     for (const auto& office : map.GetOffices()) {
-        json::object office_obj;
-        office_obj["id"] = *office.GetId();
-        office_obj["x"] = office.GetPosition().x;
-        office_obj["y"] = office.GetPosition().y;
-        office_obj["offsetX"] = office.GetOffset().dx;
-        office_obj["offsetY"] = office.GetOffset().dy;
-        offices.push_back(std::move(office_obj));
+        offices.push_back(OfficeToJson(office));
     }
 
     json::object map_obj;
