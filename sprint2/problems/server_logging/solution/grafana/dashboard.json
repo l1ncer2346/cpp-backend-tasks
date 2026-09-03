@@ -1,0 +1,55 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "panels": [
+    {
+      "id": 1,
+      "title": "HTTP traffic",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [
+        {"expr": "rate(game_server_requests_total[1m])", "legendFormat": "requests {{method}}"},
+        {"expr": "rate(game_server_responses_total[1m])", "legendFormat": "responses {{code}}"}
+      ],
+      "fieldConfig": {"defaults": {"unit": "reqps"}, "overrides": []},
+      "options": {"legend": {"displayMode": "list"}}
+    },
+    {
+      "id": 2,
+      "title": "Network errors by operation",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [
+        {
+          "expr": "rate(game_server_network_errors_total[1m])",
+          "legendFormat": "{{where}} (code {{code}})"
+        }
+      ],
+      "fieldConfig": {"defaults": {"unit": "errors/sec"}, "overrides": []},
+      "options": {"legend": {"displayMode": "list"}}
+    },
+    {
+      "id": 3,
+      "title": "Response latency",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8},
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(game_server_response_time_milliseconds_bucket[5m])))",
+          "legendFormat": "p95"
+        },
+        {
+          "expr": "rate(game_server_response_time_milliseconds_sum[5m]) / rate(game_server_response_time_milliseconds_count[5m])",
+          "legendFormat": "average"
+        }
+      ],
+      "fieldConfig": {"defaults": {"unit": "ms"}, "overrides": []},
+      "options": {"legend": {"displayMode": "list"}}
+    }
+  ],
+  "schemaVersion": 38,
+  "title": "Game server observability",
+  "time": {"from": "now-30m", "to": "now"},
+  "timezone": "browser",
+  "version": 1
+}
