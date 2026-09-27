@@ -87,7 +87,11 @@ json::value ReadJson(const std::filesystem::path& path) {
     }
     std::ostringstream buffer;
     buffer << input.rdbuf();
-    return json::parse(buffer.str());
+    try {
+        return json::parse(buffer.str());
+    } catch (const std::exception& error) {
+        throw std::runtime_error("Failed to parse config file " + path.string() + ": " + error.what());
+    }
 }
 
 }  // namespace

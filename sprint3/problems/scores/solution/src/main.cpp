@@ -88,7 +88,7 @@ Options ParseOptions(int argc, const char* argv[]) {
     if (argc == 3) {
         options.www_root = argv[2];
     }
-    // Earlier sprint assignments require a random point on a road after joining.
+    // В ранних заданиях игрок появляется в случайной точке дороги
     options.randomize_spawn_points = true;
     return options;
 }

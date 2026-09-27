@@ -1,2 +1,2 @@
-// Boost.JSON is header-only until this translation unit requests its implementation.
+// Реализация Boost.JSON собирается в этой единице трансляции
 #include <boost/json/src.hpp>

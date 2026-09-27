@@ -44,8 +44,7 @@ public:
 
         StringResponse response = HandleRequest(request, std::string(request.target()));
         if (is_head) {
-            // Content-Length is deliberately retained: HEAD has the same metadata as GET,
-            // but no response body on the wire.
+            // Content-Length оставляем: у HEAD те же заголовки, что у GET, но без тела
             response.body().clear();
         }
 

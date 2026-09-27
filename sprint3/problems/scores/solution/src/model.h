@@ -313,7 +313,7 @@ private:
     Maps maps_;
     using MapIdToIndex = std::unordered_map<Map::Id, size_t, util::TaggedHasher<Map::Id>>;
     MapIdToIndex map_id_to_index_;
-    std::vector<MapLoot> map_loot_;  // same indices as maps_
+    std::vector<MapLoot> map_loot_;  // индексы совпадают с maps_
     std::vector<Player> players_;
     std::uint64_t next_player_id_ = 0;
     std::uint64_t next_loot_id_ = 0;

@@ -21,6 +21,7 @@ add_executable(game_server
     src/request_handler.h
     src/sdk.h
     src/tagged.h
+    src/api_endpoints.h
     src/boost_json.cpp
     src/collision_detector.cpp
     src/collision_detector.h

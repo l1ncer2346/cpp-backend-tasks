@@ -337,7 +337,7 @@ void Game::GatherLoot(size_t map_index, const std::vector<Movement>& movements) 
         return;
     }
 
-    // loot goes first, offices follow it
+    // сначала предметы, за ними базы
     GatherProvider provider;
     for (const LostObject& object : objects) {
         provider.AddItem(object.position, kItemHalfWidth);

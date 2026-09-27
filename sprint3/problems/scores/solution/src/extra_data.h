@@ -7,7 +7,7 @@
 
 namespace extra_data {
 
-// Map data the model does not need, only the client
+// Данные карт, которые нужны только клиенту
 class MapsExtra {
 public:
     void SetLootTypes(const std::string& map_id, boost::json::array loot_types) {

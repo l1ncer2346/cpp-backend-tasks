@@ -12,14 +12,14 @@ struct CollectionResult {
         return proj_ratio >= 0 && proj_ratio <= 1 && sq_distance <= collect_radius * collect_radius;
     }
 
-    // squared distance to the point
+    // квадрат расстояния до точки
     double sq_distance;
 
-    // fraction of the path covered
+    // доля пройденного отрезка
     double proj_ratio;
 };
 
-// Moving from a to b, trying to pick up c.
+// Движемся из точки a в точку b и пытаемся подобрать точку c.
 CollectionResult TryCollectPoint(geom::Point2D a, geom::Point2D b, geom::Point2D c);
 
 struct Item {
@@ -51,7 +51,7 @@ struct GatheringEvent {
     double time;
 };
 
-// Events are sorted by time
+// События отсортированы по времени
 std::vector<GatheringEvent> FindGatherEvents(const ItemGathererProvider& provider);
 
 }  // namespace collision_detector

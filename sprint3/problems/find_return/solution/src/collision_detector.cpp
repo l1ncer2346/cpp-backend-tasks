@@ -1,12 +1,11 @@
 #include "collision_detector.h"
 
 #include <algorithm>
-#include <cassert>
 
 namespace collision_detector {
 
+// Нулевые перемещения отсекаются ещё в FindGatherEvents
 CollectionResult TryCollectPoint(geom::Point2D a, geom::Point2D b, geom::Point2D c) {
-    assert(b.x != a.x || b.y != a.y);
     const double u_x = c.x - a.x;
     const double u_y = c.y - a.y;
     const double v_x = b.x - a.x;
@@ -24,7 +23,7 @@ std::vector<GatheringEvent> FindGatherEvents(const ItemGathererProvider& provide
     std::vector<GatheringEvent> events;
     for (size_t g = 0; g < provider.GatherersCount(); ++g) {
         const Gatherer gatherer = provider.GetGatherer(g);
-        // standing still collects nothing
+        // стоя на месте ничего не собрать
         if (gatherer.start_pos.x == gatherer.end_pos.x && gatherer.start_pos.y == gatherer.end_pos.y) {
             continue;
         }
